@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="BDD Test Suite" verbose="1" parallel="tests" thread-count="2">
-    <test name="CHROME" annotations="JDK" preserve-order="true">
+    <test name="CHROME" annotations="JDK">
         <parameter name="browser" value="Chrome" />
         <classes>
             <class name="com.github.ultram4rine.ssu.artnowtesting.TestRunner" />
         </classes>
     </test>
-    <test name="FIREFOX" annotations="JDK" preserve-order="true">
+    <test name="FIREFOX" annotations="JDK">
         <parameter name="browser" value="Firefox" />
         <classes>
             <class name="com.github.ultram4rine.ssu.artnowtesting.TestRunner" />

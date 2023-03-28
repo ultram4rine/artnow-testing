@@ -13,7 +13,7 @@
 
   <properties>
     <junit.version>5.9.2</junit.version>
-    <aspectj.version>1.8.10</aspectj.version>
+    <aspectj.version>1.9.19</aspectj.version>
     <allure.version>2.21.0</allure.version>
     <cucumber.version>7.11.2</cucumber.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,6 +54,7 @@
       <artifactId>selenium-java</artifactId>
       <version>4.8.1</version>
     </dependency>
+
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -64,27 +65,38 @@
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
       <version>${cucumber.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit</artifactId>
       <version>${cucumber.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-testng</artifactId>
       <version>${cucumber.version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
+      <artifactId>slf4j-simple</artifactId>
       <version>2.0.7</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.26</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>5.3.2</version>
     </dependency>
   </dependencies>
 
@@ -94,11 +106,14 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
         <configuration>
+          <parallel>methods</parallel>
+          <useUnlimitedThreads>true</useUnlimitedThreads>
           <suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
           <argLine>
             -noverify
+            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
           </argLine>
           <properties>
             <configurationParameters>

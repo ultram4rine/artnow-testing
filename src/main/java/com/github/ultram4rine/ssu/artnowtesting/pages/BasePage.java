@@ -11,14 +11,14 @@ public abstract class BasePage {
     private static final int WAIT_FOR_ELEMENT_TIMEOUT_SECONDS = 10;
     private static final int DEFAULT_TIME = 1000;
 
-    private static WebDriver driver;
+    private final WebDriver driver;
 
     public BasePage(WebDriver driver) {
-        driver = driver;
+        this.driver = driver;
     }
 
-    public static WebDriver getDriver() {
-        return driver;
+    public WebDriver getDriver() {
+        return this.driver;
     }
 
     protected void waitForElementVisible(WebElement element) {
