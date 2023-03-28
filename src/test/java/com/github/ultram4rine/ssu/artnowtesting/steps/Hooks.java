@@ -11,6 +11,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Allure;
 
+import java.io.ByteArrayInputStream;
+
 public class Hooks {
     private DriverFactory driverFactory;
     private WebDriver driver;
@@ -39,7 +41,7 @@ public class Hooks {
             byte[] screenshot = ((TakesScreenshot) driver)
                     .getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", name);
-            Allure.addAttachment(name, "image/png", screenshot.toString(), "png");
+            Allure.addAttachment(name, new ByteArrayInputStream(screenshot));
         }
     }
 }
