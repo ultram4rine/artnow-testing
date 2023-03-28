@@ -1,22 +1,24 @@
 package com.github.ultram4rine.ssu.artnowtesting.pages;
 
 import com.github.ultram4rine.ssu.artnowtesting.models.Art;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 public class CatalogItemPage extends BasePage {
     public CatalogItemPage(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public void checkStyle(String style) {
-        WebElement styleLink = getDriver().findElement(
+    @Step("Check style of art")
+    public Boolean checkStyle(String style) {
+        WebElement styleEl = getDriver().findElement(
                 By.cssSelector("#main_container > div:nth-child(3) > div.infocontainer > div:nth-child(9) > a"));
-        Assert.assertEquals(styleLink.getText(), style);
+        return styleEl.getText().equals(style);
     }
 
+    @Step("Add art to favorites")
     public Art addToFavorite() {
         WebElement addToFavoriteButton = getDriver()
                 .findElement(By
@@ -26,27 +28,32 @@ public class CatalogItemPage extends BasePage {
         return new Art(getArtName(), getArtAuthor(), "");
     }
 
-    public void checkFavoriteCount(int count) {
+    @Step("Check favorites count")
+    public Boolean checkFavoriteCount(int count) {
         WebElement favoriteCounter = getDriver().findElement(By.cssSelector("#FvtCnt"));
         waitForElementVisible(favoriteCounter);
-        Assert.assertEquals(Integer.parseInt(favoriteCounter.getText()), count);
+        return Integer.parseInt(favoriteCounter.getText()) == count;
     }
 
+    @Step("Go to favorites page")
     public void goToFavorites() {
         WebElement favoriteIcon = getDriver().findElement(By.cssSelector("body > div.topheader > span.fvtico"));
         waitForElementClickable(favoriteIcon);
         favoriteIcon.click();
     }
 
-    public void checkArtNameContains(String str) {
-        Assert.assertTrue(getArtName().toLowerCase().contains(str.toLowerCase()));
+    @Step("Check that art name contains string")
+    public Boolean checkArtNameContains(String str) {
+        return getArtName().toLowerCase().contains(str.toLowerCase());
     }
 
+    @Step("Get the name of the art")
     public String getArtName() {
         return getDriver().findElement(By.cssSelector("#main_container > div:nth-child(3) > div.imgcontainer > h1"))
                 .getText();
     }
 
+    @Step("Get the author of the art")
     public String getArtAuthor() {
         return getDriver()
                 .findElement(
@@ -54,19 +61,21 @@ public class CatalogItemPage extends BasePage {
                 .getText();
     }
 
+    @Step("Get the price of the art")
     public String getArtPrice() {
         return getDriver().findElement(By.cssSelector(
                 "#main_container > div:nth-child(3) > div.infocontainer > div.sale-span > div:nth-child(4) > b:nth-child(2)"))
                 .getText();
     }
 
-    public Art addToBucket() {
+    @Step("Add art to the bucket")
+    public void addToBucket() {
         WebElement addToCartButton = getDriver().findElement(By.cssSelector("#CartButton1100221"));
         waitForElementClickable(addToCartButton);
         addToCartButton.click();
-        return new Art(getArtName(), getArtAuthor(), getArtPrice());
     }
 
+    @Step("Go to the bucket")
     public void goToBucket() {
         WebElement btn = getDriver().findElement(By.cssSelector("#cmodal > div > p > button.ok-button"));
         waitForElementVisible(btn);

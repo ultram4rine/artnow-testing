@@ -1,6 +1,6 @@
 package com.github.ultram4rine.ssu.artnowtesting.utils;
 
-import com.github.ultram4rine.ssu.artnowtesting.conf.Conf;
+import com.github.ultram4rine.ssu.artnowtesting.pages.BasePage;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -17,6 +17,6 @@ public class ScreenShotMaker {
 
     @Attachment(value = "{0}", type = "image/png")
     public static byte[] takeScreenShot() {
-        return ((TakesScreenshot) Conf.driver).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) BasePage.getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 }

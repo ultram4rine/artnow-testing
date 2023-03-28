@@ -32,7 +32,7 @@ public class MainPage extends BasePage {
         }
     }
 
-    @Step("Input string to search")
+    @Step("Input a search string")
     public void search(CharSequence name) {
         WebElement globalSearchInput = getDriver()
                 .findElement(By.cssSelector("#MainSearchForm > div > div:nth-child(1) > input.inp.scLarge"));

@@ -4,7 +4,6 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class CatalogPage extends BasePage {
         super(webDriver);
     }
 
-    @Step("Show more")
+    @Step("Show more genres")
     public void showMoreGenres() {
         WebElement showMoreButton = getDriver()
                 .findElement(By.cssSelector("#genrebox > span.dot.control.float-l.showextra > span.openclose"));
@@ -38,26 +37,21 @@ public class CatalogPage extends BasePage {
     }
 
     @Step("Check name")
-    public void checkArtPresent(String artName) {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-            System.out.println(ex.getMessage());
-        }
+    public Boolean checkArtPresent(String artName) {
+        timeSleep();
         List<WebElement> artList = getDriver().findElements(By.cssSelector("#sa_container > div.post"));
-        Boolean isPresent = false;
         for (WebElement el : artList) {
             WebElement name = getDriver().findElement(By.cssSelector("#sa_container > div:nth-child(5) > a > div"));
             if (name.getText().contains(artName)) {
-                isPresent = true;
-                break;
+                return true;
             }
         }
-        Assert.assertTrue(isPresent);
+        return false;
     }
 
     @Step("Click on item by name")
     public void clickOnArtByName(String artName) {
+        timeSleep();
         List<WebElement> artList = getDriver().findElements(By.cssSelector("#sa_container > div.post"));
         for (WebElement el : artList) {
             WebElement name = getDriver().findElement(By.cssSelector("#sa_container > div:nth-child(5) > a > div"));
