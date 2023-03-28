@@ -1,5 +1,6 @@
 package com.github.ultram4rine.ssu.artnowtesting.steps;
 
+import com.github.ultram4rine.ssu.artnowtesting.models.Art;
 import com.github.ultram4rine.ssu.artnowtesting.pages.BucketPage;
 import com.github.ultram4rine.ssu.artnowtesting.pages.CatalogItemPage;
 import com.github.ultram4rine.ssu.artnowtesting.pages.CatalogPage;
@@ -12,6 +13,9 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public class ETestBucket {
@@ -28,15 +32,14 @@ public class ETestBucket {
      * Перейти в "Ювелирное искусство", добавить первое изделие в
      * корзину, проверить, что выбранный товар находится в корзине, стоимость
      * товара не изменилась.
+     * Класть в корзину первые три товара.
      */
 
     MainPage mainPage = new MainPage(DriverFactory.getDriver());
     CatalogPage catalogPage = new CatalogPage(DriverFactory.getDriver());
     CatalogItemPage catalogItemPage = new CatalogItemPage(DriverFactory.getDriver());
     BucketPage bucketPage = new BucketPage(DriverFactory.getDriver());
-
-    String catalogItemName = "";
-    String catalogItemPrice = "";
+    List<Art> items = new ArrayList<Art>();
 
     @When("user goes to the jewerly")
     public void user_goes_to_the_jewerly() {
@@ -45,26 +48,18 @@ public class ETestBucket {
         mainPage.chooseCategory("Ювелирное искусство");
     }
 
-    @When("user goes to the first art")
-    public void user_goes_to_the_first_art() {
-        catalogPage.clickOnArtByNumber(0);
-    }
-
-    @When("user adds first art to the bucket")
-    public void user_adds_first_art_to_the_bucket() {
-        catalogItemName = catalogItemPage.getArtName();
-        catalogItemPrice = catalogItemPage.getArtPrice();
-        catalogItemPage.addToBucket();
+    @When("user adds first {int} arts to the bucket")
+    public void user_adds_first_art_to_the_bucket(int number) {
+        catalogPage.addFirstNToBucket(number);
     }
 
     @When("user goes to the bucket")
     public void user_goes_to_the_bucket() {
-        catalogItemPage.goToBucket();
+        catalogPage.goToBucket();
     }
 
-    @Then("art presented in the bucket")
+    @Then("arts presented in the bucket")
     public void art_presented_in_the_bucket() {
-        Assert.assertTrue(bucketPage.checkBucketItemName(catalogItemName));
-        Assert.assertTrue(bucketPage.checkBucketItemPrice(catalogItemPrice));
+        Assert.assertTrue(bucketPage.checkBucketItems(items));
     }
 }

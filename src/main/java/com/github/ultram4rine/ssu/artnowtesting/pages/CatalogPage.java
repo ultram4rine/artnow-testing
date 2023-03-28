@@ -64,10 +64,30 @@ public class CatalogPage extends BasePage {
     }
 
     @Step("Click on item by number")
-    public void clickOnArtByNumber(int number) {
+    public void clickOnArtByNumber(Integer number) {
         List<WebElement> artList = getDriver().findElements(By.cssSelector("#sa_container > .post"));
         WebElement art = artList.get(number);
         waitForElementClickable(art);
         art.click();
+    }
+
+    @Step("Choose first n items")
+    public void addFirstNToBucket(Integer n) {
+        List<WebElement> artList = getDriver().findElements(By.cssSelector("#sa_container > .post"));
+        for (Integer i = 0; i < n; i++) {
+            WebElement btn = artList.get(i).findElement(By.cssSelector(".oclick"));
+            waitForElementClickable(btn);
+            btn.click();
+            WebElement btnContinue = getDriver().findElement(By.cssSelector("#cmodal > div > p > button.continue"));
+            waitForElementClickable(btnContinue);
+            btnContinue.click();
+        }
+    }
+
+    @Step("Go to bucket")
+    public void goToBucket() {
+        WebElement bucket = getDriver().findElement(By.cssSelector("body > div.topheader > span.basketico"));
+        waitForElementClickable(bucket);
+        bucket.click();
     }
 }

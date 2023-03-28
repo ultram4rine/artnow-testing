@@ -70,10 +70,11 @@ public class CatalogItemPage extends BasePage {
     }
 
     @Step("Add art to the bucket")
-    public void addToBucket() {
+    public Art addToBucket() {
         WebElement addToCartButton = getDriver().findElement(By.cssSelector("#CartButton1100221"));
         waitForElementClickable(addToCartButton);
         addToCartButton.click();
+        return new Art(getArtName(), getArtAuthor(), getArtPrice());
     }
 
     @Step("Go to the bucket")
@@ -82,5 +83,10 @@ public class CatalogItemPage extends BasePage {
         waitForElementVisible(btn);
         waitForElementClickable(btn);
         btn.click();
+    }
+
+    @Step("Go back")
+    public void goBack() {
+        getDriver().navigate().back();
     }
 }
