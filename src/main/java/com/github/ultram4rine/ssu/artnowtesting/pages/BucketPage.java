@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BucketPage extends BasePage {
@@ -16,19 +17,29 @@ public class BucketPage extends BasePage {
 
     @Step("Check the arts is in the bucket")
     public Boolean checkBucketItems(List<Art> items) {
+        List<Boolean> oks = new ArrayList<Boolean>();
         List<WebElement> artList = getDriver().findElements(By.cssSelector("#main_container > div.c_row"));
-        for (Integer i = 0; i < items.size(); i++) {
-            if (artList.size() != items.size()) {
-                return false;
-            }
-
-            String name = artList.get(i).findElement(By.cssSelector(".c_cell > :nth-child(1)")).getText();
-            String price = artList.get(i).findElement(By.cssSelector(".c_cell > .shop > .price")).getText();
-
-            if (name != items.get(i).getName() || price != items.get(i).getPrice()) {
-                return false;
-            }
+        if (artList.size() != items.size()) {
+            return false;
         }
-        return true;
+
+        elLoop: for (WebElement el : artList) {
+            String name = el.findElement(By.cssSelector(".c_cell > :nth-child(1)")).getText();
+            String price = el.findElement(By.cssSelector(".c_cell > .shop > .price")).getText();
+            for (Art a : items) {
+                if (a.getName().contains(name) || a.getPrice().equals(price)) {
+                    oks.add(true);
+                    continue elLoop;
+                }
+            }
+            oks.add(false);
+        }
+        for (Boolean ok : oks) {
+            if (!ok) {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

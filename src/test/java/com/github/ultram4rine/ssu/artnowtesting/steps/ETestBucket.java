@@ -50,7 +50,7 @@ public class ETestBucket {
 
     @When("user adds first {int} arts to the bucket")
     public void user_adds_first_art_to_the_bucket(int number) {
-        catalogPage.addFirstNToBucket(number);
+        items = catalogPage.addFirstNToBucket(number);
     }
 
     @When("user goes to the bucket")

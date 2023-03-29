@@ -1,10 +1,13 @@
 package com.github.ultram4rine.ssu.artnowtesting.pages;
 
+import com.github.ultram4rine.ssu.artnowtesting.models.Art;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CatalogPage extends BasePage {
@@ -72,16 +75,21 @@ public class CatalogPage extends BasePage {
     }
 
     @Step("Choose first n items")
-    public void addFirstNToBucket(Integer n) {
+    public List<Art> addFirstNToBucket(Integer n) {
+        List<Art> items = new ArrayList<Art>();
         List<WebElement> artList = getDriver().findElements(By.cssSelector("#sa_container > .post"));
         for (Integer i = 0; i < n; i++) {
+            String desc = artList.get(i).findElement(By.cssSelector(".ssize")).getText();
+            String price = artList.get(i).findElement(By.cssSelector(".price")).getText();
             WebElement btn = artList.get(i).findElement(By.cssSelector(".oclick"));
             waitForElementClickable(btn);
             btn.click();
+            items.add(new Art(desc, desc, price));
             WebElement btnContinue = getDriver().findElement(By.cssSelector("#cmodal > div > p > button.continue"));
             waitForElementClickable(btnContinue);
             btnContinue.click();
         }
+        return items;
     }
 
     @Step("Go to bucket")
